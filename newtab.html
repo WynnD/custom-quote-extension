@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>New Tab</title>
+    <script src="newtab.js" defer></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .quote-container {
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .quote {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .author {
+            font-size: 16px;
+            color: #555;
+            text-align: right;
+            font-style: italic;
+        }
+
+        .settings-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .settings-btn:hover {
+            background: #357abd;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .quotes-list {
+            width: 100%;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin: 1rem 0;
+            padding: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="quote-container">
+        <p class="quote" id="quote">Loading...</p>
+        <p class="author" id="author"></p>
+        <button id="refreshQuotes">New Quote</button>
+    </div>
+
+    <button class="settings-btn" id="settingsBtn">Settings</button>
+
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h2>Custom Quotes</h2>
+            <div class="edit-quotes">
+                <select name="quotes" class="quotes-list" id="quotesList" multiple>
+                </select>
+                <span id="quoteCount">quotes</span>
+                <button id="editQuote">Edit</button>
+                <button id="removeQuotes">Remove</button>
+            </div>
+
+            <div class="import-section">
+                <p>Or import from JSON file:</p>
+                <input type="file" id="jsonFileInput" accept=".json">
+                <button id="importJson">Import</button>
+                <div id="importError" style="color: red;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="addQuoteModal">
+        <p>Enter your quotes (one per line):</p>
+        <textarea id="quotesInput"></textarea>
+        <button id="addQuotes">Add</button>
+    </div>
+
+</body>
+
+</html>
