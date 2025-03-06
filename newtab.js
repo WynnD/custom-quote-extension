@@ -9,10 +9,12 @@ const defaultQuotes = [
     }
 ];
 
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 let quotes = defaultQuotes;
 
 async function initQuotes() {
-    const loadedQuotes = await chrome.storage.local.get('quotes');
+    const loadedQuotes = await browserAPI.storage.local.get('quotes');
     if (loadedQuotes && Object.keys(loadedQuotes).length > 0) {
         quotes = loadedQuotes.quotes;
     }
@@ -37,7 +39,7 @@ async function loadAndDisplayQuote() {
 
 async function removeQuote(index) {
     quotes.splice(index, 1);
-    await chrome.storage.local.set({ quotes });
+    await browserAPI.storage.local.set({ quotes });
     createQuotesList();
     loadAndDisplayQuote();
 }
@@ -67,7 +69,7 @@ const quoteCount = document.getElementById('quoteCount');
 
 settingsBtn.addEventListener('click', async () => {
     modal.style.display = 'block';
-    const { quotes = defaultQuotes } = await chrome.storage.local.get('quotes');
+    const { quotes = defaultQuotes } = await browserAPI.storage.local.get('quotes');
     createQuotesList();
     quotesInput.value = quotes.join('\n');
 });
@@ -80,7 +82,7 @@ modal.addEventListener('click', (e) => {
 
 addBtn.addEventListener('click', async () => {
     const quotes = quotesInput.value.split('\n').filter(quote => quote.trim());
-    await chrome.storage.local.set({ quotes });
+    await browserAPI.storage.local.set({ quotes });
     modal.style.display = 'none';
     loadAndDisplayQuote();
 });
@@ -111,7 +113,7 @@ importJsonBtn.addEventListener('click', async () => {
 
             quotes = quotes.concat(importedQuotes);
 
-            await chrome.storage.local.set({ quotes });
+            await browserAPI.storage.local.set({ quotes });
             modal.style.display = 'none';
             loadAndDisplayQuote();
         } catch (error) {

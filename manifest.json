@@ -1,10 +1,15 @@
 {
     "manifest_version": 3,
     "name": "Custom Quote New Tab",
-    "version": "1.0",
+    "version": "0.1",
     "description": "Shows a random quote from a custom list on new tab",
     "permissions": ["storage"],
     "chrome_url_overrides": {
         "newtab": "newtab.html"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "custom-quotes@wynndrahorad.com"
+        }
     }
 }
