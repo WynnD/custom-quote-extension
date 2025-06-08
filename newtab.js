@@ -27,8 +27,16 @@ async function loadAndDisplayQuote() {
     try {
         await initQuotes();
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        document.getElementById('quote').textContent = randomQuote.quote;
-        document.getElementById('source').textContent = '- ' + randomQuote.source;
+        const quoteEl = document.getElementById('quote');
+        const sourceEl = document.getElementById('source');
+        quoteEl.style.opacity = '0';
+        sourceEl.style.opacity = '0';
+        setTimeout(() => {
+            quoteEl.textContent = randomQuote.quote;
+            sourceEl.textContent = '- ' + randomQuote.source;
+            quoteEl.style.opacity = '1';
+            sourceEl.style.opacity = '1';
+        }, 200);
 
     } catch (error) {
         console.error('Error loading quote:', error);
@@ -67,8 +75,23 @@ const removeBtn = document.getElementById('removeQuotes');
 const refreshBtn = document.getElementById('refreshQuotes');
 const quoteCount = document.getElementById('quoteCount');
 
-settingsBtn.addEventListener('click', async () => {
+function openModal() {
     modal.style.display = 'block';
+    requestAnimationFrame(() => {
+        modal.style.opacity = '1';
+    });
+}
+
+function closeModal() {
+    modal.style.opacity = '0';
+    modal.addEventListener('transitionend', function handler() {
+        modal.style.display = 'none';
+        modal.removeEventListener('transitionend', handler);
+    }, { once: true });
+}
+
+settingsBtn.addEventListener('click', async () => {
+    openModal();
     const { quotes = defaultQuotes } = await browserAPI.storage.local.get('quotes');
     createQuotesList();
     quotesInput.value = quotes.join('\n');
@@ -76,14 +99,14 @@ settingsBtn.addEventListener('click', async () => {
 
 modal.addEventListener('click', (e) => {
     if (e.target === modal) {
-        modal.style.display = 'none';
+        closeModal();
     }
 });
 
 addBtn.addEventListener('click', async () => {
     const quotes = quotesInput.value.split('\n').filter(quote => quote.trim());
     await browserAPI.storage.local.set({ quotes });
-    modal.style.display = 'none';
+    closeModal();
     loadAndDisplayQuote();
 });
 
@@ -114,7 +137,7 @@ importJsonBtn.addEventListener('click', async () => {
             quotes = quotes.concat(importedQuotes);
 
             await browserAPI.storage.local.set({ quotes });
-            modal.style.display = 'none';
+            closeModal();
             loadAndDisplayQuote();
         } catch (error) {
             alert('Invalid JSON file: ' + error.message);
