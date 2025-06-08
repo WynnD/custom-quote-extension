@@ -5,6 +5,14 @@
     <title>New Tab</title>
     <script src="newtab.js" defer></script>
     <style>
+        :root {
+            --bg-color: #fafafa;
+            --container-bg: #ffffff;
+            --text-color: #222;
+            --accent-color: #007acc;
+            --overlay-color: rgba(0, 0, 0, 0.5);
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -13,30 +21,33 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .quote-container {
-            max-width: 800px;
-            padding: 2rem;
+            max-width: 700px;
+            padding: 1.5rem;
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: var(--container-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
 
         .quote {
             font-size: 24px;
-            color: #333;
             margin-bottom: 1rem;
+            transition: opacity 0.3s ease;
         }
 
         .source {
             font-size: 16px;
-            color: #555;
             text-align: right;
             font-style: italic;
+            transition: opacity 0.3s ease;
         }
 
         .settings-btn {
@@ -44,16 +55,16 @@
             bottom: 20px;
             right: 20px;
             padding: 10px 20px;
-            background: #4a90e2;
-            color: white;
+            background: var(--accent-color);
+            color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s ease;
         }
 
         .settings-btn:hover {
-            background: #357abd;
+            background: #005f9e;
         }
 
         .modal {
@@ -63,7 +74,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: var(--overlay-color);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .modal-content {
@@ -71,9 +84,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
+            background: var(--container-bg);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 8px;
             width: 80%;
             max-width: 600px;
         }
