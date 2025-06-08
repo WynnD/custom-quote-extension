@@ -1,11 +1,11 @@
 const defaultQuotes = [
     {
         "quote": "Be the change you wish to see in the world.",
-        "author": "Gandhi",
+        "source": "Gandhi",
     },
     {
         "quote": "Life is what happens while you're busy making other plans.",
-        "author": "John Lennon",
+        "source": "John Lennon",
     }
 ];
 
@@ -28,12 +28,12 @@ async function loadAndDisplayQuote() {
         await initQuotes();
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
         document.getElementById('quote').textContent = randomQuote.quote;
-        document.getElementById('author').textContent = '- ' + randomQuote.author;
+        document.getElementById('source').textContent = '- ' + randomQuote.source;
 
     } catch (error) {
         console.error('Error loading quote:', error);
         document.getElementById('quote').textContent = 'Error loading quote';
-        document.getElementById('author').textContent = '';
+        document.getElementById('source').textContent = '';
     }
 }
 
@@ -50,7 +50,7 @@ function createQuotesList() {
     quotes.forEach((quoteObj, index) => {
         const option = document.createElement('option');
         option.value = index;
-        option.textContent = `${quoteObj.quote} - ${quoteObj.author}`;
+        option.textContent = `${quoteObj.quote} - ${quoteObj.source}`;
         quotesListSelect.appendChild(option);
     });
 }
@@ -103,8 +103,8 @@ importJsonBtn.addEventListener('click', async () => {
             const importedJsonObject = JSON.parse(event.target.result);
             const importedQuotes = importedJsonObject.quotes
 
-            if (!importedQuotes.every(quote => quote.quote && quote.author)) {
-                throw new Error('Each quote must have a "quote" and "author" property');
+            if (!importedQuotes.every(quote => quote.quote && quote.source)) {
+                throw new Error('Each quote must have a "quote" and "source" property');
             }
 
             if (!Array.isArray(importedQuotes)) {
